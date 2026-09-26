@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Glass Fuel · Veepeak Companion</title>
+<style>
+
+:root{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif;color-scheme:light;--bg:#eef4ef;--ink:#12211d;--muted:#6c7c77;--line:#ffffffbf;--glass:rgba(255,255,255,.78);--glass-strong:rgba(255,255,255,.9);--soft:rgba(255,255,255,.56);--green:#27a36b;--green-2:#6be29b;--green-soft:rgba(44,167,108,.12);--warn:#bf7d17;--danger:#d15757;--shadow:0 18px 48px rgba(22,48,39,.10),0 2px 10px rgba(22,48,39,.06);--track:rgba(62,84,74,.13);--blue:#0a84ff}
+html[data-theme="dark"]{color-scheme:dark;--bg:#0e1716;--ink:#f1f7f4;--muted:#9caeaa;--line:#ffffff1f;--glass:rgba(37,51,48,.72);--glass-strong:rgba(39,54,51,.88);--soft:rgba(255,255,255,.06);--green:#7fe6ad;--green-2:#a9f3c8;--green-soft:rgba(127,230,173,.12);--warn:#f0c46e;--danger:#ff9898;--shadow:0 22px 52px rgba(0,0,0,.34);--track:rgba(255,255,255,.12);--blue:#7cc0ff}
+@media (prefers-color-scheme:dark){html[data-theme="auto"]{color-scheme:dark;--bg:#0e1716;--ink:#f1f7f4;--muted:#9caeaa;--line:#ffffff1f;--glass:rgba(37,51,48,.72);--glass-strong:rgba(39,54,51,.88);--soft:rgba(255,255,255,.06);--green:#7fe6ad;--green-2:#a9f3c8;--green-soft:rgba(127,230,173,.12);--warn:#f0c46e;--danger:#ff9898;--shadow:0 22px 52px rgba(0,0,0,.34);--track:rgba(255,255,255,.12);--blue:#7cc0ff}}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);background-image:radial-gradient(circle at 15% 0%,rgba(105,198,141,.22),transparent 38%),radial-gradient(circle at 100% 30%,rgba(105,174,255,.14),transparent 32%),linear-gradient(180deg,rgba(255,255,255,.2),transparent 42%);background-attachment:fixed;-webkit-tap-highlight-color:transparent}button,input,select{font:inherit;color:inherit}button{cursor:pointer;touch-action:manipulation}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:3px}.app{width:min(100%,430px);margin:auto;padding:14px 14px max(22px,env(safe-area-inset-bottom))}.glass{background:var(--glass);border:1px solid var(--line);box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.38);backdrop-filter:blur(24px) saturate(165%);-webkit-backdrop-filter:blur(24px) saturate(165%)}
+.top{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 14px}.brand{display:flex;align-items:center;gap:10px}.brand-mark{width:38px;height:38px;border-radius:14px;display:grid;place-items:center;color:var(--green);background:var(--glass-strong)}.icon{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.brand h1{font-size:18px;letter-spacing:-.6px;margin:0;font-weight:700}.brand p{font-size:10px;color:var(--muted);margin:2px 0 0}.icon-button{width:40px;height:40px;border-radius:20px;display:grid;place-items:center;border:1px solid var(--line);padding:0;background:var(--glass)}
+.mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:17px;background:var(--soft);margin-bottom:12px}.mode-switch button{border:0;background:transparent;border-radius:13px;min-height:38px;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:-.1px}.mode-switch button.selected{background:var(--glass-strong);box-shadow:0 2px 8px rgba(0,0,0,.06);color:var(--ink)}
+.hero-card{border-radius:30px;padding:18px 18px 16px;margin-bottom:12px;background:linear-gradient(180deg,var(--glass-strong),var(--glass))}.hero-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.eyebrow{font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);font-weight:700}.source-badge{display:inline-flex;align-items:center;gap:6px;font-size:9px;font-weight:800;letter-spacing:.4px;padding:7px 10px;border-radius:999px;background:var(--soft);color:var(--muted);white-space:nowrap}.source-badge.live{background:var(--green-soft);color:var(--green)}.source-badge.live::before,.source-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.8}
+.hero-grid{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;margin-top:14px}.hero-number{font-size:66px;line-height:.9;letter-spacing:-4px;font-weight:650;font-variant-numeric:tabular-nums}.hero-unit{font-size:11px;color:var(--muted);margin-top:6px}.hero-side{text-align:right}.hero-side strong{display:block;font-size:28px;letter-spacing:-1.2px;font-weight:650;font-variant-numeric:tabular-nums}.hero-side span{font-size:10px;color:var(--muted)}.fuel-meter{margin-top:16px;height:12px;border-radius:999px;background:var(--track);overflow:hidden;position:relative}.fuel-meter::after{content:"";position:absolute;inset:2px;border-radius:999px;border:1px solid rgba(255,255,255,.25);pointer-events:none}.tank-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--green-2));border-radius:inherit;box-shadow:0 0 16px rgba(39,163,107,.28);transition:width .25s ease}.tank-fill.danger{background:linear-gradient(90deg,var(--danger),#ffb5b5);box-shadow:none}
+.arrival-card{margin-top:16px;padding:14px 14px 12px;border-radius:22px;background:var(--soft);border:1px solid var(--line)}.arrival-card-top{display:flex;align-items:end;justify-content:space-between;gap:10px}.arrival-caption{font-size:10px;color:var(--muted);margin-bottom:4px}.arrival-place{font-size:15px;font-weight:700;letter-spacing:-.3px;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.arrival-value{text-align:right}.arrival-value strong{display:block;font-size:28px;letter-spacing:-1px;font-variant-numeric:tabular-nums}.arrival-value span{font-size:10px;color:var(--muted)}.status-line{font-size:11px;line-height:1.45;color:var(--muted);margin:12px 2px 0}.warning{color:var(--warn)}.danger-text{color:var(--danger)}
+.route-card,.manual-card,.connect-card{border-radius:24px;padding:15px;margin-bottom:12px}.route-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}.route-title strong{display:block;font-size:15px;letter-spacing:-.25px}.route-title span{display:block;font-size:10px;color:var(--muted);margin-top:3px}.route-state{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;font-size:9px;font-weight:800;letter-spacing:.5px;background:var(--soft);color:var(--muted);text-transform:uppercase}.route-state::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}.route-state.live{background:var(--green-soft);color:var(--green)}.route-state.warn{color:var(--warn)}
+.route-inputs{display:grid;grid-template-columns:minmax(0,1fr) 100px;gap:9px;align-items:end}.field{font-size:9px;color:var(--muted);display:block}.field input,.field select{display:block;width:100%;margin-top:6px;border:1px solid var(--line);background:var(--soft);border-radius:14px;padding:11px 12px;font-size:14px;min-width:0}.destination-input{font-weight:650}.field input.big{font-size:22px;font-weight:700;letter-spacing:-.6px}
+.route-progress-wrap{margin-top:14px;padding:12px;border-radius:18px;background:var(--soft);border:1px solid var(--line)}.route-progress-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.route-progress-meta strong{font-size:12px}.route-progress-meta span{font-size:10px;color:var(--muted)}.route-line{position:relative;height:12px;border-radius:999px;background:var(--track);overflow:visible;margin:7px 8px 5px}.route-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--green),var(--green-2));border-radius:inherit;box-shadow:0 0 14px rgba(39,163,107,.24);transition:width .45s cubic-bezier(.22,1,.36,1)}.route-car{position:absolute;top:50%;left:0;transform:translate(-50%,-58%) scaleX(-1);font-size:22px;line-height:1;filter:drop-shadow(0 3px 4px rgba(0,0,0,.18));transition:left .45s cubic-bezier(.22,1,.36,1);z-index:2;pointer-events:none;user-select:none}.route-car::after{content:"";position:absolute;left:50%;bottom:-7px;width:6px;height:6px;border-radius:50%;background:var(--green);transform:translateX(-50%);box-shadow:0 0 0 3px var(--green-soft)}.route-stops{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:10px;color:var(--muted)}.route-stops strong{color:var(--ink);font-size:11px;display:block;margin-top:2px}
+.trip-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.stat{padding:12px;border-radius:18px;background:var(--soft);border:1px solid var(--line);font-size:9px;color:var(--muted)}.stat strong{display:block;color:var(--ink);font-size:17px;letter-spacing:-.5px;margin-top:4px;font-variant-numeric:tabular-nums}.actions{display:flex;gap:8px;margin-top:12px}.primary,.secondary{border:1px solid var(--line);border-radius:15px;min-height:44px;padding:10px 14px;font-size:12px;font-weight:700}.primary{background:var(--green);color:#fff;border-color:transparent;flex:1;box-shadow:0 10px 22px rgba(39,163,107,.23)}.secondary{background:var(--soft)}
+.compact-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.compact-title strong{font-size:14px;letter-spacing:-.2px}.calibration{font-size:9px;color:var(--green);background:var(--green-soft);padding:6px 8px;border-radius:999px;font-weight:700}.input-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.manual-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.summary-cell{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:12px}.summary-cell span{display:block;font-size:9px;color:var(--muted);margin-bottom:4px}.summary-cell strong{font-size:17px;letter-spacing:-.4px}.fuel-icon-meter{display:flex;gap:3px;width:74px;margin-top:8px;border:1.5px solid var(--muted);padding:3px;border-radius:7px;position:relative}.fuel-icon-meter:after{content:"";position:absolute;right:-4px;top:6px;width:3px;height:7px;background:var(--muted);border-radius:0 2px 2px 0}.fuel-icon-meter i{height:11px;flex:1;background:var(--track);border-radius:2px}.fuel-icon-meter i.on{background:linear-gradient(180deg,var(--green-2),var(--green))}
+.connection-row{display:flex;align-items:center;justify-content:space-between;gap:12px}.connection-copy{min-width:0}.connection-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px}.connection-sub{font-size:10px;color:var(--muted);margin-top:4px}.dot{width:8px;height:8px;border-radius:50%;background:#93a19c;display:inline-block}.dot.live{background:var(--green);box-shadow:0 0 0 4px rgba(39,163,107,.12)}.dot.busy{background:#cc9632}
+details{border-radius:22px;margin-top:10px;padding:0 15px}summary{cursor:pointer;list-style:none;min-height:48px;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700}summary::-webkit-details-marker{display:none}summary:after{content:"+";color:var(--muted);font-size:18px}details[open]>summary:after{content:"−"}.detail-content{border-top:1px solid var(--line);padding:13px 0;line-height:1.55}.detail-content .field{margin-bottom:11px}.detail-content p{color:var(--muted);margin:8px 0}.detail-content ol{padding-left:18px;margin:0}.detail-content li{margin-bottom:8px}pre{font-size:9px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;max-height:180px;overflow:auto}.preview-banner{font-size:9px;text-align:center;padding:8px 10px;border-radius:12px;background:var(--green-soft);color:var(--green);margin-bottom:10px;font-weight:700;letter-spacing:.4px}footer{text-align:center;color:var(--muted);font-size:8px;line-height:1.5;margin-top:12px}[hidden]{display:none!important}
+@media(max-width:350px){.app{padding:10px 9px}.hero-grid,.arrival-card-top,.connection-row{grid-template-columns:1fr;display:block}.hero-side,.arrival-value{text-align:left;margin-top:10px}.hero-number{font-size:56px}.route-inputs,.input-row,.manual-summary{grid-template-columns:1fr}.arrival-place{max-width:180px}.mode-switch button{font-size:10px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+</style>
+</head>
+<body>
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
+<symbol id="fuel-icon" viewBox="0 0 24 24"><path d="M4 21V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v17M3 21h12M4 10h10M17 4l3 3v10a2 2 0 0 1-4 0v-3a2 2 0 0 0-2-2M18 5v4h2"/></symbol>
+<symbol id="settings-icon" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="8" cy="7" r="3"/><circle cx="16" cy="17" r="3"/></symbol>
+</defs></svg>
+<div class="app">
+<div id="previewBanner" class="preview-banner" hidden>BROWSER TEST · SAMPLE DATA · CONTROLS ACTIVE</div>
+<header class="top">
+ <div class="brand"><div class="brand-mark glass"><svg class="icon"><use href="#fuel-icon"/></svg></div><div><h1>Glass Fuel</h1><p>Fuel now. Fuel when you arrive.</p></div></div>
+ <button id="settingsBtn" class="icon-button glass" aria-label="Open settings"><svg class="icon"><use href="#settings-icon"/></svg></button>
+</header>
+<nav class="mode-switch" aria-label="Fuel mode"><button id="liveModeBtn" class="selected">Live OBD</button><button id="manualModeBtn">Manual DTE</button></nav>
+<div id="browserHint" class="preview-banner" hidden>Safari/Chrome: Manual + GPS • Bluefy: Manual + GPS + OBD</div>
+
+<main>
+ <section class="hero-card glass" aria-label="Fuel overview">
+  <div class="hero-top"><span class="eyebrow">Fuel summary</span><span id="fuelSourceBadge" class="source-badge">NO READING</span></div>
+  <div class="hero-grid">
+   <div><div id="tankNumber" class="hero-number">—</div><div id="tankUnit" class="hero-unit">% remaining now</div></div>
+   <div class="hero-side"><strong id="currentDteDisplay">—</strong><span>mi DTE now</span></div>
+  </div>
+  <div class="fuel-meter"><div id="tankFill" class="tank-fill"></div></div>
+  <div class="arrival-card">
+   <div class="arrival-card-top">
+    <div><div class="arrival-caption">Estimated fuel on arrival</div><div id="arrivalDestination" class="arrival-place">Destination</div></div>
+    <div class="arrival-value"><strong id="arrivalPercent">—</strong><span id="arrivalDteDisplay">— mi DTE</span></div>
+   </div>
+  </div>
+  <p id="statusMessage" class="status-line" role="status">Connect OBD or switch to Manual DTE.</p>
+ </section>
+
+ <section class="route-card glass">
+  <div class="route-head">
+   <div class="route-title"><strong>Route progress</strong><span>Made to sit beside Apple Maps with the same clean, glanceable feel.</span></div>
+   <div id="routeStatePill" class="route-state">Ready</div>
+  </div>
+  <div class="route-inputs">
+   <label class="field">Destination<input id="destinationNameInput" class="destination-input" maxlength="120" value="Destination"></label>
+   <label class="field">Trip miles<input id="tripMilesInput" type="number" min="0.1" max="10000" step="0.1" inputmode="decimal" value="29.2"></label>
+  </div>
+  <div class="route-progress-wrap">
+   <div class="route-progress-meta"><strong id="routeProgressText">0% complete</strong><span><span id="remainingDisplay">29.2</span> mi remaining</span></div>
+   <div class="route-line"><div id="routeProgressFill" class="route-fill"></div><div id="routeCar" class="route-car" aria-hidden="true">🚙</div></div>
+   <div class="route-stops"><div>START<strong><span id="traveledDistanceDisplay">0.0</span> mi traveled</strong></div><div style="text-align:right">DESTINATION<strong id="routeDestinationLabel">Destination</strong></div></div>
+  </div>
+  <div class="trip-stats"><div class="stat">TRAVELED<strong><span id="traveledDistanceDisplayMirror">0.0</span> mi</strong></div><div class="stat">REMAINING<strong><span id="remainingDisplayMirror">29.2</span> mi</strong></div></div>
+  <div class="actions"><button id="goNavBtn" class="primary">Start trip</button><button id="endTripBtn" class="secondary">End</button></div>
+  <p id="routeCaution" class="status-line warning" hidden>GPS paused or missed distance. Verify remaining mileage in Maps.</p>
+ </section>
+
+ <section id="manualCard" class="manual-card glass" hidden>
+  <div class="compact-title"><strong>Manual DTE estimate</strong><span id="manualCalibration" class="calibration">Enter MPG</span></div>
+  <div class="input-row">
+   <label class="field">Current dash DTE<input id="dteInput" class="big" type="number" min="0" max="9999" step="1" inputmode="numeric" placeholder="e.g. 330"></label>
+   <label class="field">Average MPG<input id="mpgInput" class="big" type="number" min="17" max="25" step="0.1" inputmode="decimal" placeholder="e.g. 21.5"></label>
+  </div>
+  <p class="status-line" style="margin-top:10px">Full-tank calibration scales from about 380 mi at 17 MPG to about 440 mi at 25 MPG.</p>
+  <div class="manual-summary">
+   <div class="summary-cell"><span>NOW</span><strong id="manualNowLabel">—</strong><div id="manualNowMeter" class="fuel-icon-meter"><i></i><i></i><i></i><i></i></div></div>
+   <div class="summary-cell"><span>AT ARRIVAL</span><strong id="manualArrivalLabel">—</strong><div id="manualArrivalMeter" class="fuel-icon-meter"><i></i><i></i><i></i><i></i></div></div>
+  </div>
+ </section>
+
+ <section id="connectCard" class="connect-card glass">
+  <div class="connection-row"><div class="connection-copy"><div class="connection-title"><span id="obdDot" class="dot"></span>Veepeak OBDCheck BLE</div><div id="connectionSub" class="connection-sub">Tap connect when the ignition is on.</div></div><button id="obdPairBtn" class="secondary">Connect</button></div>
+ </section>
+
+ <details id="settings" class="glass"><summary>Settings</summary><div class="detail-content">
+  <label id="obdRangeField" class="field">OBD full-tank driving range · miles<input id="fullRangeInput" type="number" min="1" max="10000" step="1" inputmode="decimal" placeholder="Used only for Live OBD arrival estimate"></label>
+  <label class="field">Appearance<select id="theme"><option value="auto">Match device</option><option value="light">Light glass</option><option value="dark">Dark glass</option></select></label>
+  <button id="resetTripBtn" class="secondary">Reset trip distance</button>
+  <p><strong>Manual DTE calibration:</strong> the full-tank baseline scales with the average MPG you enter: about 380 miles at 17 MPG up to about 440 miles at 25 MPG. This never affects Live OBD data.</p>
+ </div></details>
+ <details id="setup" class="glass"><summary>iPad connection</summary><div class="detail-content">
+  <ol><li>Open the hosted HTTPS page in Bluefy – Web BLE Browser. Safari does not expose this BLE connection.</li><li>Plug in Veepeak, switch ignition on, then tap Connect and choose VEEPEAK.</li><li>Manual DTE mode works without Bluetooth. Enter the DTE shown on your dash and the mileage shown in Maps.</li></ol>
+  <p>The page does not read Apple Maps routes directly. GPS only subtracts distance you actually travel while this page remains active.</p>
+ </div></details>
+ <details class="glass"><summary>Diagnostics</summary><div class="detail-content"><pre id="diagnosticLog">No connection attempts yet.</pre></div></details>
+</main>
+<footer>GLASS FUEL · INDEPENDENT MAPS COMPANION<br>Manual estimates are approximate · Not affiliated with Apple or Veepeak</footer>
+</div>
+<script id="fuel-core">
+(()=>{
+'use strict';
+// Read-only fuel telemetry. No DTC clearing, coding, or actuator commands.
+// Veepeak profile: FFF0 service, FFF1 notify, FFF2 write.
+const uuid = short => `0000${short}-0000-1000-8000-00805f9b34fb`;
+const PROFILES = [
+  {service:uuid('fff0'),rx:uuid('fff1'),tx:uuid('fff2')},
+  {service:uuid('ffe0'),rx:uuid('ffe1'),tx:uuid('ffe1')}
+];
+const ALLOWED = new Set(['ATZ','ATE0','ATL0','ATS1','ATH0','ATSP0','0100','0120','012F']);
+const clamp = (x,min,max) => Math.min(max,Math.max(min,x));
+const positive = (x,max=10000) => x !== '' && Number.isFinite(Number(x)) && Number(x)>0 && Number(x)<=max;
+
+function pidFrames(raw, pid, count) {
+  const frames=[];
+  for(let line of String(raw).toUpperCase().split(/[\r\n>]+/)) {
+    line=line.trim().replace(/^SEARCHING\.{3}/,'').trim();
+    if(!line) continue;
+    // ATH0 is used, but also tolerate a CAN ID and a single-frame length byte.
+    const header=line.match(/^(?:[0-9A-F]{3}|[0-9A-F]{8})\s+(.+)$/);
+    if(header) line=header[1];
+    let hex=line.replace(/\s/g,'');
+    if(!/^[0-9A-F]+$/.test(hex)) continue;
+    if(hex.length%2 && hex.length>=9) hex=hex.slice(3);
+    if(hex.length%2) continue;
+    const needle='41'+pid.toString(16).padStart(2,'0').toUpperCase();
+    for(let i=0;i<=hex.length-4-count*2;i+=2) {
+      if(hex.slice(i,i+4)!==needle) continue;
+      frames.push(Array.from({length:count},(_,n)=>parseInt(hex.slice(i+4+n*2,i+6+n*2),16)));
+      break;
+    }
+  }
+  return frames;
+}
+function supported(raw,base,pid) {
+  const frames=pidFrames(raw,base,4);
+  if(!frames.length) return null;
+  const shift=32-(pid-base);
+  if(shift<0 || shift>31) return false;
+  return frames.some(b=>(((b[0]*0x1000000+b[1]*0x10000+b[2]*0x100+b[3])>>>shift)&1)===1);
+}
+function fuelPercent(raw) {
+  const frames=pidFrames(raw,0x2f,1);
+  if(!frames.length) throw new Error(/NO DATA/i.test(raw)?'Vehicle returned NO DATA for fuel level.':'No valid fuel-level response received.');
+  const values=[...new Set(frames.map(x=>x[0]))];
+  if(values.length!==1) throw new Error('Conflicting fuel readings from multiple ECUs; no value selected.');
+  return values[0]*100/255;
+}
+function haversineMeters(a,b) {
+  const rad=Math.PI/180;
+  const x=Math.sin((b.lat-a.lat)*rad/2)**2+Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin((b.lon-a.lon)*rad/2)**2;
+  return 6371000*2*Math.atan2(Math.sqrt(clamp(x,0,1)),Math.sqrt(1-clamp(x,0,1)));
+}
+class GpsDistance {
+  constructor(){this.anchor=null;this.lastTimestamp=0;}
+  reset(){this.anchor=null;this.lastTimestamp=0;}
+  push(pos,now=Date.now()) {
+    const c=pos.coords;
+    const p={lat:c.latitude,lon:c.longitude,accuracy:c.accuracy,time:pos.timestamp};
+    if(![p.lat,p.lon,p.accuracy,p.time].every(Number.isFinite) || Math.abs(p.lat)>90 || Math.abs(p.lon)>180 || p.accuracy<0 || p.accuracy>50 || now-p.time>15000 || p.time-now>5000 || p.time<=this.lastTimestamp)
+      return {meters:0,accepted:false,reason:'Waiting for an accurate GPS fix'};
+    const gap=this.lastTimestamp && p.time-this.lastTimestamp>30000;
+    this.lastTimestamp=p.time;
+    if(!this.anchor || gap){this.anchor=p;return {meters:0,accepted:true,gap:!!gap};}
+    if(Number.isFinite(c.speed) && c.speed>=0 && c.speed<0.5){this.anchor=p;return {meters:0,accepted:true};}
+    const meters=haversineMeters(this.anchor,p),seconds=(p.time-this.anchor.time)/1000;
+    if(seconds<=0 || meters/seconds>70) return {meters:0,accepted:false,reason:'GPS jump ignored'};
+    // Keep the anchor on small movements so real slow movement accumulates.
+    const threshold=Math.max(5,Math.min(20,(p.accuracy+this.anchor.accuracy)/2));
+    if(meters<threshold) return {meters:0,accepted:true};
+    this.anchor=p;
+    return {meters,accepted:true};
+  }
+}
+function fuelForecast({tank,remainingMiles,fullRangeMiles}) {
+  if(!Number.isFinite(tank) || !positive(fullRangeMiles) || !Number.isFinite(remainingMiles) || remainingMiles<0) return null;
+  const raw=tank-remainingMiles/Number(fullRangeMiles)*100;
+  return {percent:clamp(raw,0,100),shortfall:raw<0};
+}
+function manualFuel(percent,milesSinceSet,fullRangeMiles) {
+  if(!Number.isFinite(percent)) return null;
+  if(milesSinceSet<=0) return clamp(percent,0,100);
+  if(!positive(fullRangeMiles)) return null;
+  return clamp(percent-milesSinceSet/Number(fullRangeMiles)*100,0,100);
+}
+function fullDteFromMpg(mpg) {
+  if(!Number.isFinite(mpg)) return null;
+  const bounded=clamp(mpg,17,25);
+  return 380+(bounded-17)*(60/8);
+}
+function manualDteForecast({dte,fullDte,driven=0,remaining=0}) {
+  if(!Number.isFinite(dte)||dte<0||dte>10000||!positive(fullDte)||!Number.isFinite(driven)||driven<0||!Number.isFinite(remaining)||remaining<0)return null;
+  const currentDte=Math.max(0,dte-driven);
+  const arrivalRaw=currentDte-remaining;
+  return {
+    current:clamp(currentDte/fullDte*100,0,100),
+    currentDte,
+    arrival:clamp(arrivalRaw/fullDte*100,0,100),
+    arrivalDte:Math.max(0,arrivalRaw),
+    shortfall:arrivalRaw<0,
+    fullDte
+  };
+}
+function quarterTank(percent) {
+  if(percent<=0)return {text:'Empty',short:'E',bars:0,level:0};
+  if(percent<12.5)return {text:'Below ¼',short:'<¼',bars:0,level:8};
+  const bars=clamp(Math.round(percent/25),1,4);
+  return {text:['','About ¼','About ½','About ¾','Nearly full'][bars],short:['','¼','½','¾','Full'][bars],bars,level:bars*25};
+}
+class ElmBle {
+  constructor({onLost=()=>{},onLog=()=>{}}={}) {
+    this.onLost=onLost;this.onLog=onLog;this.device=null;this.tx=null;this.rx=null;
+    this.pending=null;this.queue=Promise.resolve();this.epoch=0;
+    this.onNotification=e=>this.receive(e.target.value);
+    this.onDisconnected=()=>this.close('Bluetooth disconnected. Tap Connect OBD to reconnect.',true);
+  }
+  get connected(){return !!(this.device?.gatt?.connected && this.tx && this.rx);}
+  async connect() {
+    if(!globalThis.isSecureContext) throw new Error('Open the hosted HTTPS page in Bluefy. A file preview is not a Bluetooth app.');
+    if(!navigator.bluetooth?.requestDevice) throw new Error('On iPad, open this HTTPS page in Bluefy – Web BLE Browser. Safari cannot connect to this adapter.');
+    this.close();
+    const epoch=this.epoch;
+    // Show all nearby devices: some firmware does not advertise the service UUID.
+    const device=await navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:PROFILES.map(p=>p.service)});
+    if(epoch!==this.epoch) throw new Error('Connection cancelled.');
+    this.device=device;device.addEventListener('gattserverdisconnected',this.onDisconnected);
+    try {
+      const server=await device.gatt.connect();
+      if(epoch!==this.epoch){device.gatt.disconnect();throw new Error('Connection cancelled.');}
+      let found=false;
+      for(const profile of PROFILES) {
+        try {
+          const service=await server.getPrimaryService(profile.service);
+          const rx=await service.getCharacteristic(profile.rx);
+          const tx=await service.getCharacteristic(profile.tx);
+          if(!(rx.properties.notify||rx.properties.indicate) || !(tx.properties.write||tx.properties.writeWithoutResponse)) continue;
+          if(epoch!==this.epoch) throw new Error('Connection cancelled.');
+          this.rx=rx;this.tx=tx;found=true;
+          this.onLog('BLE channel: '+profile.service.slice(4,8).toUpperCase());break;
+        } catch(e) {if(epoch!==this.epoch) throw e;}
+      }
+      if(!found) throw new Error('No supported OBD BLE channel found. Select VEEPEAK in the device chooser.');
+      this.rx.addEventListener('characteristicvaluechanged',this.onNotification);
+      await this.rx.startNotifications();
+      if(epoch!==this.epoch) throw new Error('Connection cancelled.');
+      const reset=await this.command('ATZ',12000);
+      if(!/ELM|OBD|STN|OK/i.test(reset)) throw new Error('Adapter did not identify as an ELM-compatible device.');
+      for(const cmd of ['ATE0','ATL0','ATS1','ATH0','ATSP0']) {
+        const response=await this.command(cmd);
+        if(!/(?:^|[\r\n])\s*OK\s*(?:[\r\n]|$)/i.test(response)) throw new Error('Adapter rejected '+cmd+'.');
+      }
+    } catch(e){if(epoch===this.epoch)this.close();throw e;}
+  }
+  command(cmd,timeout=8000) {
+    if(!ALLOWED.has(cmd)) return Promise.reject(new Error('Command is outside the read-only fuel protocol.'));
+    const epoch=this.epoch;
+    const task=this.queue.then(()=>{
+      if(epoch!==this.epoch||!this.connected) throw new Error('Bluetooth connection is closed.');
+      return new Promise((resolve,reject)=>{
+        const pending={resolve,reject,text:'',timer:null};
+        this.pending=pending;
+        pending.timer=setTimeout(()=>{
+          if(this.pending===pending) this.close('OBD response timed out. Check ignition, then reconnect.',true);
+        },timeout);
+        this.onLog('> '+cmd);
+        const bytes=new TextEncoder().encode(cmd+'\r');
+        // Commands are shorter than a 20-byte default BLE packet.
+        Promise.resolve().then(()=>{
+          if(this.pending!==pending || epoch!==this.epoch) throw new Error('Connection cancelled.');
+          if(this.tx.properties.write && typeof this.tx.writeValueWithResponse==='function') return this.tx.writeValueWithResponse(bytes);
+          if(this.tx.properties.writeWithoutResponse && typeof this.tx.writeValueWithoutResponse==='function') return this.tx.writeValueWithoutResponse(bytes);
+          if(typeof this.tx.writeValue==='function') return this.tx.writeValue(bytes); // Older Bluefy API.
+          throw new Error('This browser cannot write to the OBD characteristic.');
+        }).catch(e=>{if(this.pending===pending)this.close('Bluetooth write failed: '+e.message,true);});
+      });
+    });
+    this.queue=task.catch(()=>{});return task;
+  }
+  receive(value) {
+    if(!this.pending) return;
+    const bytes=new Uint8Array(value.buffer,value.byteOffset,value.byteLength);
+    this.pending.text+=new TextDecoder().decode(bytes);
+    if(this.pending.text.length>8192){this.close('Unexpectedly large OBD response.',true);return;}
+    const end=this.pending.text.indexOf('>');
+    if(end<0)return;
+    const p=this.pending;this.pending=null;clearTimeout(p.timer);
+    const raw=p.text.slice(0,end).replace(/\0/g,'');
+    this.onLog('< '+raw.trim().replace(/[\r\n]+/g,' | '));
+    p.resolve(raw);
+  }
+  close(reason='Disconnected',notify=false) {
+    this.epoch++;
+    if(this.pending){clearTimeout(this.pending.timer);this.pending.reject(new Error(reason));this.pending=null;}
+    if(this.rx)this.rx.removeEventListener('characteristicvaluechanged',this.onNotification);
+    if(this.device){this.device.removeEventListener('gattserverdisconnected',this.onDisconnected);if(this.device.gatt?.connected)this.device.gatt.disconnect();}
+    this.tx=null;this.rx=null;this.device=null;this.queue=Promise.resolve();
+    if(notify)this.onLost(reason);
+  }
+}
+globalThis.FuelCore={ElmBle,GpsDistance,pidFrames,supported,fuelPercent,fuelForecast,manualFuel,fullDteFromMpg,manualDteForecast,quarterTank,haversineMeters,positive,clamp};
+
+})();
+
+</script>
+<script id="fuel-app">
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const {ElmBle,GpsDistance,supported,fuelPercent,fuelForecast,fullDteFromMpg,manualDteForecast,quarterTank,positive,clamp}=FuelCore;
+class FuelApp {
+  constructor(){
+    this.settings={destination:'Destination',tripMiles:29.2,fullRangeMiles:null,theme:'auto'};
+    try{const s=JSON.parse(localStorage.getItem('glass_fuel_v3')||'{}');
+      if(typeof s.destination==='string')this.settings.destination=s.destination.slice(0,120);
+      if(positive(s.tripMiles))this.settings.tripMiles=Number(s.tripMiles);
+      if(positive(s.fullRangeMiles))this.settings.fullRangeMiles=Number(s.fullRangeMiles);
+      if(['auto','light','dark'].includes(s.theme))this.settings.theme=s.theme;
+    }catch{}
+    this.mode='obd';this.manualDte=null;this.manualMpg=null;this.manualAnchor=0;
+    this.tank=null;this.fuelTime=0;this.sampleValid=false;
+    this.traveled=0;this.totalMiles=0;this.routeState='idle';this.distanceGap=false;
+    this.watch=null;this.lastGpsTime=0;this.gps=new GpsDistance();this.gpsRun=0;
+    this.connecting=false;this.ready=false;this.pollTimer=null;this.run=0;
+    this.messages=[];this.preview=new URLSearchParams(location.search).get('preview')==='1';this.browserMode=!navigator.bluetooth?.requestDevice;
+    this.obd=new ElmBle({onLog:line=>this.log(line),onLost:reason=>this.connectionLost(reason)});
+    this.bind();this.render();this.uiTimer=setInterval(()=>this.render(),1000);
+  }
+  save(){try{localStorage.setItem('glass_fuel_v3',JSON.stringify(this.settings));}catch{}}
+  bind(){
+    $('destinationNameInput').value=this.settings.destination;$('tripMilesInput').value=this.settings.tripMiles;
+    $('fullRangeInput').value=this.settings.fullRangeMiles??'';$('theme').value=this.settings.theme;this.applyTheme();
+    $('settingsBtn').onclick=()=>{$('settings').open=!$('settings').open;if($('settings').open)$('settings').scrollIntoView({behavior:'smooth',block:'nearest'});};
+    $('liveModeBtn').onclick=()=>this.setMode('obd');$('manualModeBtn').onclick=()=>this.setMode('manual');$('obdPairBtn').onclick=()=>this.toggleObd();
+    $('destinationNameInput').oninput=e=>{this.settings.destination=e.target.value.slice(0,120);this.save();this.render();};
+    const setTrip=e=>{if(!positive(e.target.value)){e.target.value=this.settings.tripMiles;this.notice('Enter destination mileage greater than 0.');return;}this.settings.tripMiles=Number(e.target.value);$('tripMilesInput').value=this.settings.tripMiles;this.save();this.render();};
+    $('tripMilesInput').onchange=setTrip;
+    $('dteInput').oninput=e=>{if(e.target.value===''){this.manualDte=null;}else{const n=Number(e.target.value);this.manualDte=Number.isFinite(n)&&n>=0?clamp(n,0,10000):null;}this.manualAnchor=this.totalMiles;this.render();};
+    $('mpgInput').oninput=e=>{if(e.target.value===''){this.manualMpg=null;}else{const n=Number(e.target.value);this.manualMpg=Number.isFinite(n)?clamp(n,17,25):null;}this.manualAnchor=this.totalMiles;this.render();};
+    $('fullRangeInput').onchange=e=>{if(e.target.value===''||!positive(e.target.value)){this.settings.fullRangeMiles=null;e.target.value='';}else this.settings.fullRangeMiles=Number(e.target.value);this.save();this.render();};
+    $('theme').onchange=e=>{this.settings.theme=e.target.value;this.applyTheme();this.save();};
+    $('goNavBtn').onclick=()=>['waiting','tracking'].includes(this.routeState)?this.pauseNavigation('Paused'):this.startNavigation();
+    $('endTripBtn').onclick=()=>{this.pauseNavigation('Trip ended');this.routeState='ended';this.render();};
+    $('resetTripBtn').onclick=()=>{this.pauseNavigation('Ready');this.traveled=0;this.totalMiles=0;this.manualAnchor=0;this.distanceGap=false;this.routeState='idle';this.render();};
+    document.addEventListener('visibilitychange',()=>{if(document.hidden){if(['waiting','tracking'].includes(this.routeState)){this.pauseNavigation('Paused while hidden');this.distanceGap=true;}if(this.ready||this.connecting){this.disconnect();this.notice('OBD paused while hidden. Reconnect when you return.');}}else this.render();});
+    window.addEventListener('pagehide',()=>{this.disconnect();this.pauseNavigation('Paused');});
+    if(this.preview){$('previewBanner').hidden=false;if(!navigator.bluetooth?.requestDevice)$('browserHint').hidden=false;this.settings.destination='Downtown San Antonio';this.settings.tripMiles=180;this.manualDte=330;this.manualMpg=21;this.mode='manual';$('destinationNameInput').value=this.settings.destination;$('tripMilesInput').value=180;$('dteInput').value=330;$('mpgInput').value=21;this.notice('Browser test mode · sample values loaded. All UI controls remain active.');}
+    else if(!navigator.bluetooth?.requestDevice){$('browserHint').hidden=false;this.notice(globalThis.isSecureContext?'Browser mode ready. Manual DTE + GPS work here; Live OBD requires Bluefy.':'Browser mode ready. Manual DTE works here; GPS requires HTTPS and Live OBD requires Bluefy.');}
+    window.addEventListener('error',e=>{this.notice('App error: '+(e.message||'Unknown error'));this.log('Runtime error: '+(e.message||'Unknown error'));});
+    window.addEventListener('unhandledrejection',e=>{const m=e.reason?.message||String(e.reason||'Unknown error');this.notice('App error: '+m);this.log('Unhandled error: '+m);});
+  }
+  applyTheme(){document.documentElement.dataset.theme=this.settings.theme;}
+  setMode(mode){this.mode=mode;if(mode==='manual'){this.disconnect();this.manualAnchor=this.totalMiles;this.notice('Enter the current DTE and average MPG shown on your dash.');}else this.notice('Connect Veepeak for a live fuel-level reading.');this.render();}
+  log(line){this.messages.push(new Date().toLocaleTimeString()+' '+line);this.messages=this.messages.slice(-80);$('diagnosticLog').textContent=this.messages.join('\n');}
+  notice(text){$('statusMessage').textContent=text;}
+  stopPolling(){this.run++;clearTimeout(this.pollTimer);this.pollTimer=null;}
+  connectionLost(reason){this.stopPolling();this.ready=false;this.connecting=false;this.sampleValid=false;this.notice(reason);this.render();}
+  disconnect(){this.stopPolling();this.obd.close();this.ready=false;this.connecting=false;this.sampleValid=false;this.render();}
+  async toggleObd(){
+    if(this.ready||this.connecting){this.disconnect();this.notice('Disconnected.');return;}this.mode='obd';this.stopPolling();const run=this.run;this.connecting=true;this.sampleValid=false;this.notice('Choose VEEPEAK, then wait for the fuel check.');this.render();
+    try{await this.obd.connect();if(run!==this.run)return;this.notice('Adapter connected · checking fuel support…');const first=await this.obd.command('0100',20000);if(run!==this.run)return;const next=supported(first,0,0x20);if(next===null)throw new Error('No vehicle response. Turn ignition on and reconnect.');if(!next)throw new Error('Vehicle does not advertise standard fuel-level support. Use Manual DTE.');const second=await this.obd.command('0120');const hasFuel=supported(second,0x20,0x2f);if(hasFuel!==true)throw new Error(hasFuel===false?'Fuel-level PID 2F is not advertised. Use Manual DTE.':'Could not verify fuel-level support.');const value=fuelPercent(await this.obd.command('012F'));if(run!==this.run)return;this.ready=true;this.connecting=false;this.acceptFuel(value);this.schedulePoll(run);this.render();}
+    catch(e){if(run!==this.run)return;this.disconnect();this.notice(e.name==='NotFoundError'?'No adapter selected.':e.message);this.log('Error: '+e.message);}
+  }
+  acceptFuel(value){this.tank=value;this.fuelTime=Date.now();this.sampleValid=true;this.notice('Live fuel received from the vehicle.');}
+  schedulePoll(run){this.pollTimer=setTimeout(async()=>{if(run!==this.run||!this.ready)return;try{const value=fuelPercent(await this.obd.command('012F'));if(run!==this.run)return;this.acceptFuel(value);}catch(e){if(run!==this.run)return;this.sampleValid=false;this.notice('Fuel unavailable: '+e.message);}this.render();if(run===this.run&&this.ready)this.schedulePoll(run);},4000);}
+  manual(){if(this.manualDte===null||this.manualMpg===null)return null;const fullDte=fullDteFromMpg(this.manualMpg);return manualDteForecast({dte:this.manualDte,fullDte,driven:Math.max(0,this.totalMiles-this.manualAnchor),remaining:Math.max(0,this.settings.tripMiles-this.traveled)});}
+  startNavigation(){if(!navigator.geolocation){this.notice('This browser cannot provide GPS.');return;}if(!globalThis.isSecureContext){this.notice('GPS requires the hosted HTTPS page.');return;}if(this.watch!==null)navigator.geolocation.clearWatch(this.watch);if(this.routeState==='ended'){this.traveled=0;this.totalMiles=0;this.manualAnchor=0;this.distanceGap=false;}this.gps.reset();this.lastGpsTime=0;this.routeState='waiting';const run=++this.gpsRun;this.notice('Waiting for an accurate GPS fix…');this.render();this.watch=navigator.geolocation.watchPosition(pos=>{if(run!==this.gpsRun)return;const result=this.gps.push(pos);if(result.gap){this.distanceGap=true;this.notice('GPS gap detected. Verify remaining distance in Maps.');}if(!result.accepted)return;this.routeState='tracking';this.lastGpsTime=pos.timestamp;const miles=result.meters/1609.344;this.traveled+=miles;this.totalMiles+=miles;this.render();},err=>{if(run!==this.gpsRun)return;this.pauseNavigation(err.code===1?'Location permission denied':'GPS unavailable');this.distanceGap=true;this.notice(err.code===1?'Allow location access, then resume.':'GPS signal lost. Resume when available.');},{enableHighAccuracy:true,maximumAge:0,timeout:15000});}
+  pauseNavigation(label){this.gpsRun++;if(this.watch!==null){navigator.geolocation.clearWatch(this.watch);this.watch=null;}if(['waiting','tracking'].includes(this.routeState)){this.routeState='paused';this.distanceGap=true;}this.gps.reset();this.lastGpsTime=0;this.render();}
+  drawMeter(id,percent){const bucket=quarterTank(percent);const meter=$(id);[...meter.children].forEach((bar,i)=>bar.classList.toggle('on',i<bucket.bars));return bucket;}
+
+  render(){
+    const remaining=Math.max(0,this.settings.tripMiles-this.traveled),manual=this.mode==='manual'?this.manual():null;
+    const liveTank=this.mode==='obd'&&this.ready&&this.sampleValid&&Date.now()-this.fuelTime<=15000?this.tank:null;
+    const tank=this.mode==='manual'?(manual?.current??null):liveTank;
+    const obdArrival=this.mode==='obd'?fuelForecast({tank:liveTank,remainingMiles:remaining,fullRangeMiles:this.settings.fullRangeMiles}):null;
+    const arrival=this.mode==='manual'?(manual?.arrival??null):(obdArrival?.percent??null);
+    const tripProgress=this.settings.tripMiles>0?clamp(this.traveled/this.settings.tripMiles*100,0,100):0;
+    const active=['waiting','tracking'].includes(this.routeState);
+
+    $('liveModeBtn').classList.toggle('selected',this.mode==='obd');
+    $('manualModeBtn').classList.toggle('selected',this.mode==='manual');
+    $('manualCard').hidden=this.mode!=='manual';
+    $('connectCard').hidden=this.mode!=='obd';
+    $('obdRangeField').hidden=this.mode!=='obd';
+
+    $('fuelSourceBadge').textContent=this.mode==='manual'?'MPG-CALIBRATED DTE':liveTank!==null?'LIVE OBD':'NO LIVE READING';
+    $('fuelSourceBadge').classList.toggle('live',liveTank!==null||this.mode==='manual');
+
+    $('tankNumber').textContent=tank===null?'—':Math.round(tank);
+    $('tankUnit').textContent=this.mode==='manual'?'% remaining now · from DTE':'% remaining now';
+    $('tankFill').style.width=(tank??0)+'%';
+    $('tankFill').classList.toggle('danger',tank!==null&&tank<=15);
+
+    $('currentDteDisplay').textContent=this.mode==='manual'&&manual?Math.round(manual.currentDte):'—';
+    $('arrivalDestination').textContent=this.settings.destination||'Destination';
+    $('arrivalPercent').textContent=arrival===null?'—':Math.round(arrival)+'%';
+    $('arrivalDteDisplay').textContent=this.mode==='manual'&&manual?Math.round(manual.arrivalDte)+' mi DTE':obdArrival?'estimated fuel':'—';
+    $('manualCalibration').textContent=this.manualMpg===null?'Enter MPG':'Full ≈ '+Math.round(fullDteFromMpg(this.manualMpg))+' mi';
+
+    if(this.mode==='manual'){
+      $('manualNowLabel').textContent=manual?Math.round(manual.current)+'% · '+Math.round(manual.currentDte)+' mi':'Enter DTE';
+      $('manualArrivalLabel').textContent=manual?Math.round(manual.arrival)+'% · '+Math.round(manual.arrivalDte)+' mi':'—';
+      if(manual){
+        this.drawMeter('manualNowMeter',manual.current);
+        this.drawMeter('manualArrivalMeter',manual.arrival);
+        if(manual.shortfall)this.notice('Destination is farther than the estimated DTE. Plan a fuel stop.');
+        else if(this.distanceGap)this.notice('Manual estimate active · GPS gap detected, verify remaining mileage.');
+        else this.notice('Manual estimate uses your dash DTE plus an MPG-adjusted full-tank baseline.');
+      }else{
+        this.drawMeter('manualNowMeter',0);
+        this.drawMeter('manualArrivalMeter',0);
+        this.notice('Enter the DTE and average MPG shown on your dash.');
+      }
+    } else if(liveTank!==null){
+      this.notice(obdArrival?(obdArrival.shortfall?'Live OBD estimate indicates a fuel stop may be needed.':'Live fuel reading active.'):'Live fuel active. Add OBD full-tank range in Settings for arrival fuel.');
+    }
+
+    $('obdPairBtn').textContent=this.connecting?'Cancel':this.ready?'Disconnect':'Connect';
+    $('obdDot').className='dot '+(liveTank!==null?'live':this.connecting?'busy':'');
+    $('connectionSub').textContent=this.connecting?'Checking adapter…':this.ready?'Fuel data connected':'Tap connect when ignition is on.';
+
+    $('traveledDistanceDisplay').textContent=this.traveled.toFixed(1);
+    $('traveledDistanceDisplayMirror').textContent=this.traveled.toFixed(1);
+    $('remainingDisplay').textContent=remaining.toFixed(1);
+    $('remainingDisplayMirror').textContent=remaining.toFixed(1);
+    $('routeDestinationLabel').textContent=this.settings.destination||'Destination';
+    $('routeProgressFill').style.width=tripProgress+'%';
+    $('routeCar').style.left=tripProgress+'%';
+    $('routeProgressText').textContent=(tripProgress>=100?'Route complete':Math.round(tripProgress)+'% complete');
+
+    const statePill=$('routeStatePill');
+    let stateLabel='Ready';
+    statePill.className='route-state';
+    if(this.distanceGap){stateLabel='Check distance';statePill.classList.add('warn');}
+    else if(this.routeState==='tracking'){stateLabel='Tracking';statePill.classList.add('live');}
+    else if(this.routeState==='waiting'){stateLabel='Getting GPS';statePill.classList.add('live');}
+    else if(this.routeState==='paused'){stateLabel='Paused';}
+    else if(this.routeState==='ended'){stateLabel='Ended';}
+    statePill.textContent=stateLabel;
+
+    $('goNavBtn').textContent=active?'Pause trip':this.routeState==='paused'?'Resume trip':this.routeState==='ended'?'Start new trip':'Start trip';
+    $('endTripBtn').disabled=['idle','ended'].includes(this.routeState);
+    $('routeCaution').hidden=!this.distanceGap;
+  }
+}
+window.appState=new FuelApp();
+})();
+</script>
+</body>
+</html>
